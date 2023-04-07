@@ -8,7 +8,7 @@
         window.addEventListener('DOMContentLoaded', function () {
             const urlParams = new URLSearchParams(window.location.search);
             const modelName = urlParams.get('model') || 'GoroChick';
-            const modelPath = `/${modelName}.gltf`;
+            const modelPath = `/GOROAR/${modelName}.gltf`;
             const modelEntity = document.querySelector('#model-entity');
             modelEntity.setAttribute('gltf-model', modelPath);
 
