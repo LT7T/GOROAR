@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="aframe.min.js"></script>
+    <script src="aframe-ar.js"></script>
+    <script src="aframe-extras.min.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const modelName = urlParams.get('model') || 'GoroAR';
+            const modelPath = `models/${modelName}.gltf`;
+            const modelEntity = document.querySelector('#model-entity');
+            modelEntity.setAttribute('gltf-model', modelPath);
+
+            const animationSelect = document.getElementById('animation-select');
+            animationSelect.addEventListener('change', function() {
+                const selectedAnimation = animationSelect.value;
+                modelEntity.setAttribute('animation-mixer', `clip: ${selectedAnimation}`);
+            });
+        });
+    </script>
+</head>
+<body style="margin: 0; overflow: hidden;">
+    <!-- Add a drop-down menu for selecting animations -->
+    <div style="position: absolute; z-index: 1; margin: 100px;">
+        <select id="animation-select">
+            <option value="Idle 01">Idle</option>
+            <option value="Glide 01">Glide</option>
+            <option value="Flying 01">Flying</option>
+            <option value="Landing 01">Landing</option>
+        </select>
+    </div>
+
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" renderer="antialias: true; pixelRatio: window.devicePixelRatio;">
+        <a-entity light="type: directional; intensity: 1; castShadow: true;"
+        shadow="mapSizeWidth: 2048; mapSizeHeight: 2048; shadowCameraNear: 0.5; shadowCameraFar: 50; shadowCameraLeft: -10; shadowCameraRight: 10; shadowCameraTop: 10; shadowCameraBottom: -10;"
+        position="-2.564 6.3 10.982">
+</a-entity>
+        <a-entity
+            id="model-entity" 
+            scale="0.5 0.5 0.5"
+            position="0 0 0"
+            rotation="0 90 0"
+            animation-mixer="clip: Idle 01">
+        </a-entity>
+        <a-entity camera="zoom: 0.5" camera="" position="-10.70343 8.98078 28.1158" data-aframe-inspector-original-camera="" rotation="-10 -20 0"></a-entity>
+    </a-scene>
+</body>
+</html>
