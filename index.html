@@ -5,6 +5,35 @@
     <script src="aframe-ar.js"></script>
     <script src="aframe-extras.min.js"></script>
 </head>
+    <script>
+
+        AFRAME.registerComponent('shader-offset', {
+            schema: {
+              offset: { type: 'vec2', default: { x: -1, y: -1 } },
+            },
+          
+            init: function () {
+              this.applyOffset = this.applyOffset.bind(this);
+              this.el.addEventListener('object3dset', this.applyOffset);
+            },
+          
+            applyOffset: function () {
+              const mesh = this.el.getObject3D('mesh');
+              if (!mesh) return;
+          
+              mesh.traverse((node) => {
+                if (node.isMesh && node.material && node.material.uniforms && node.material.uniforms.offset) {
+                  node.material.uniforms.offset.value = new THREE.Vector2(this.data.offset.x, this.data.offset.y);
+                }
+              });
+            },
+          
+            remove: function () {
+              this.el.removeEventListener('object3dset', this.applyOffset);
+            },
+          });
+          
+    </script>
 <body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" renderer="antialias: true">
         <a-assets>
